@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>自定义拦截器</title>
+    <script src="/axios.js" charset="utf-8"></script>
+</head>
+
+<style media="screen">
+    .head{
+        color: black;
+        text-align: center;
+    }
+    .button{
+      width: 80%;
+      height: 100px;
+      margin-left: 15%;
+      margin-top: 100px;
+    }
+    .button button{
+      margin: 10px 20px;
+      margin-left: 10%;
+    }
+    .result{
+      width: 80%;
+      height: 300px;
+      margin-left: 10%;
+      text-align: center;
+      font-size: 17px;
+    }
+    .result p{
+      padding: 40px;
+    }
+    .input{
+      width: 100px;
+    }
+    .input input{
+      margin-top: 10px;
+    }
+  </style>
+
+<body>
+
+<div class="head">
+    <h1>拦截器demo</h1>
+</div>
+
+
+
+
+<div class="button">
+    <div class="input">
+        <input type="text" value="root" id="n" placeholder="name 基本信息">
+        <input type="text" value="123456" id="p" placeholder="pwd 基本信息">
+        <input type="text" value="USER" id="r" placeholder="role 角色">
+    </div>
+    <button type="button" name="button" onclick="setCookie()">设置cookie</button>
+    <button type="button" name="button" onclick="getCookie()">获取信息</button>
+    <button type="button" name="button" onclick="dropCookie()">清除cookie</button>
+</div>
+
+<div class="result">
+    <p id="res-c">结果</p>
+</div>
+
+
+<div class="button">
+    <button type="button" name="button" onclick="admin()">访问admin接口</button>
+    <button type="button" name="button" onclick="user()">访问user接口</button>
+</div>
+
+<div class="result">
+    <p id="res-v">结果</p>
+</div>
+
+
+<script type="text/javascript">
+
+      let setCookie = async function() {
+
+        let n = document.querySelector("#n").value;
+        let p = document.querySelector("#p").value;
+        let r = document.querySelector("#r").value;
+
+         let res = await axios.get('/api/set?name='+n+'&pwd='+p+'&role='+r);
+         console.log(res);
+         document.querySelector('#res-c').innerHTML = res.data.message;
+      }
+
+      let dropCookie = async function() {
+         let res = await axios.get('/api/drop');
+         console.log(res);
+         document.querySelector('#res-c').innerHTML = res.data.message;
+      }
+
+      let getCookie = async function() {
+         let res = await axios.get('/api/get');
+         console.log(res);
+         document.querySelector('#res-c').innerHTML = res.data.message;
+      }
+
+      let admin = async function() {
+         let res = await axios.get('/api/admin/test');
+         console.log(res);
+         document.querySelector('#res-v').innerHTML = res.data.message;
+      }
+
+      let user = async function() {
+         let res = await axios.get('/api/user/test');
+         console.log(res);
+         document.querySelector('#res-v').innerHTML = res.data.message;
+      }
+
+    </script>
+
+</body>
+</html>
